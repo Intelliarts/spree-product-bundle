@@ -1,14 +1,14 @@
-module SpreeProductAssembly
+module SpreeProductBundle
   module Generators
     class InstallGenerator < Rails::Generators::Base
       class_option :auto_run_migrations, :type => :boolean, :default => false
 
       def add_migrations
-        run 'rake railties:install:migrations FROM=spree_product_assembly'
+        run 'rake railties:install:migrations FROM=spree_product_bundle'
       end
 
       def add_javascripts
-        append_file "app/assets/javascripts/admin/all.js", "//= require admin/spree_product_assembly\n"
+        append_file "app/assets/javascripts/admin/all.js", "//= require admin/spree_product_bundle\n"
       end
 
       def run_migrations

@@ -1,6 +1,6 @@
-module SpreeProductAssembly
+module SpreeProductBundle
   class Engine < Rails::Engine
-    engine_name 'spree_product_assembly'
+    engine_name 'spree_product_bundle'
 
     config.autoload_paths += %W(#{config.root}/lib)
 

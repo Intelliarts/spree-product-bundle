@@ -1,40 +1,46 @@
 Spree::Product.class_eval do
-  has_and_belongs_to_many  :parts, :class_name => "Spree::Variant",
-        :join_table => "spree_assemblies_parts",
-        :foreign_key => "assembly_id", :association_foreign_key => "part_id"
+  has_and_belongs_to_many  :parts, :class_name => "Spree::Product",
+        :join_table => "spree_bundles_parts",
+        :foreign_key => "bundle_id", :association_foreign_key => "part_id"
 
-  has_many :assemblies_parts, :class_name => "Spree::AssembliesPart",
-    :foreign_key => "assembly_id"
+  has_and_belongs_to_many  :bundles, :class_name => "Spree::Product",
+                           :join_table => "spree_bundles_parts",
+                           :foreign_key => "part_id", :association_foreign_key => "bundle_id"
 
-  scope :individual_saled, where(["spree_products.individual_sale = ?", true])
+  has_many :bundles_parts, :class_name => "Spree::BundlesPart",
+    :foreign_key => "bundle_id"
 
-  scope :search_can_be_part, ->(query){ not_deleted.available.joins(:master)
-    .where(arel_table["name"].matches("%#{query}%").or(Spree::Variant.arel_table["sku"].matches("%#{query}%")))
-    .where(can_be_part: true)
+  scope :search_can_be_bundled, ->(query){ not_deleted.available.joins(:master)
+    .where(arel_table["name"].matches("%#{query}%").or(Spree::Product.arel_table["sku"].matches("%#{query}%")))
+    .where(can_be_bundled: true)
     .limit(30)
   }
 
-  scope :active, lambda { |*args|
-    not_deleted.individual_saled.available(nil, args.first)
-  }
+  attr_accessible :can_be_bundled, :only_in_bundle
 
-  attr_accessible :can_be_part, :individual_sale
+  validate :bundle_cannot_be_part, :if => :bundle?
 
-  validate :assembly_cannot_be_part, :if => :assembly?
+  def bundles_for(products)
+    bundles.where(id: products)
+  end
 
-  def add_part(variant, count = 1)
-    ap = Spree::AssembliesPart.get(self.id, variant.id)
+  def part?
+    bundles.exists?
+  end
+
+  def add_part(product, count = 1)
+    ap = Spree::BundlesPart.get(self.id, product.id)
     if ap
       ap.count += count
       ap.save
     else
-      self.parts << variant
-      set_part_count(variant, count) if count > 1
+      self.parts << product
+      set_part_count(product, count) if count > 1
     end
   end
 
-  def remove_part(variant)
-    ap = Spree::AssembliesPart.get(self.id, variant.id)
+  def remove_part(product)
+    ap = Spree::BundlesPart.get(self.id, product.id)
     unless ap.nil?
       ap.count -= 1
       if ap.count > 0
@@ -45,8 +51,8 @@ Spree::Product.class_eval do
     end
   end
 
-  def set_part_count(variant, count)
-    ap = Spree::AssembliesPart.get(self.id, variant.id)
+  def set_part_count(product, count)
+    ap = Spree::BundlesPart.get(self.id, product.id)
     unless ap.nil?
       if count > 0
         ap.count = count
@@ -57,16 +63,16 @@ Spree::Product.class_eval do
     end
   end
 
-  def assembly?
+  def bundle?
     parts.present?
   end
 
-  def count_of(variant)
-    ap = Spree::AssembliesPart.get(self.id, variant.id)
+  def count_of(product)
+    ap = Spree::BundlesPart.get(self.id, product.id)
     ap ? ap.count : 0
   end
 
-  def assembly_cannot_be_part
-    errors.add(:can_be_part, Spree.t(:assembly_cannot_be_part)) if can_be_part
+  def bundle_cannot_be_part
+    errors.add(:can_be_bundled, Spree.t(:bundle_cannot_be_part)) if can_be_bundled
   end
 end

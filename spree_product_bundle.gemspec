@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
-  s.name        = 'spree_product_assembly'
+  s.name        = 'spree_product_bundle'
   s.version     = '2.0.0'
   s.summary     = 'Adds oportunity to make bundle of products to your Spree store'
   s.description = 'Adds oportunity to make bundle of products to your Spree store'
@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 
   s.author            = 'Roman Smirnov'
   s.email             = 'roman@railsdog.com'
-  s.homepage          = 'https://github.com/spree/spree-product-assembly'
+  s.homepage          = 'https://github.com/spree/spree-product-bundle'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

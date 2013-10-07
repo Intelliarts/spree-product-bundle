@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 module Spree
-  describe AssembliesPart do
+  describe BundlesPart do
     let(:product) { create(:product) }
     let(:variant) { create(:variant) }
 

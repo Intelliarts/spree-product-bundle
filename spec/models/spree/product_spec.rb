@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Spree::Product do
   before(:each) do
     @product = FactoryGirl.create(:product, :name => "Foo Bar")
-    @master_variant = Spree::Variant.find_by_product_id(@product.id, :conditions => ["is_master = ?", true])
+    @master_variant = Spree::Product.find_by_product_id(@product.id, :conditions => ["is_master = ?", true])
   end
     
   describe "Spree::Product.active" do
@@ -44,8 +44,8 @@ describe Spree::Product do
   describe "Spree::Product Assembly" do
     before(:each) do
       @product = create(:product)
-      @part1 = create(:product, :can_be_part => true)
-      @part2 = create(:product, :can_be_part => true)
+      @part1 = create(:product, :can_be_bundled => true)
+      @part2 = create(:product, :can_be_bundled => true)
       @product.add_part @part1.master, 1
       @product.add_part @part2.master, 4
     end
@@ -57,9 +57,9 @@ describe Spree::Product do
 
     it "cannot be part" do
       @product.should be_assembly
-      @product.can_be_part = true
+      @product.can_be_bundled = true
       @product.valid?
-      @product.errors[:can_be_part].should == ["assembly can't be part"]
+      @product.errors[:can_be_bundled].should == ["assembly can't be part"]
     end
 
     it 'changing part qty changes count on_hand' do

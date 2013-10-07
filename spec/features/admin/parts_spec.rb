@@ -8,7 +8,7 @@ describe "Parts" do
 
   before do
     visit spree.admin_product_path(mug)
-    check "product_can_be_part"
+    check "product_can_be_bundled"
     click_on "Update"
   end
 

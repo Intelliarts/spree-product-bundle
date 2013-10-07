@@ -22,13 +22,8 @@
         
         <td><%= product.name %></td>
         <td>
-          <% if product.has_variants? %>
-            <%= select_tag "part[id]", 
-                options_for_select(product.variants.map { |v| [variant_options(v), v.id] }) %>
-          <% else %>
-            <%= hidden_field_tag "part[id]", product.master.id %>
+            <%= hidden_field_tag "part[id]", product.id %>
             <%= Spree.t(:no_variants) %>
-          <% end %>
         </td>
         <td><%= text_field_tag "part[count]", 1 %></td>
 		    <td class="actions">

@@ -1,22 +1,22 @@
 <div class="left six columns alpha">
   <div class="field">
-    <%= f.label :can_be_part, Spree.t(:can_be_part)%>
-    <%= f.check_box(:can_be_part) %>
+    <%= f.label :can_be_bundled, Spree.t(:can_be_bundled)%>
+    <%= f.check_box(:can_be_bundled) %>
   </div>
 </div>
 <div class="right six columns omega">
   <div class="field">
-    <%= f.label :individual_sale, Spree.t(:individual_sale)%>
-    <%= f.check_box(:individual_sale) %>
+    <%= f.label :only_in_bundle, Spree.t(:only_in_bundle)%>
+    <%= f.check_box(:only_in_bundle) %>
   </div>
 </div>
 
-<% if @product.assembly? %>
+<% if @product.bundle? %>
   <% content_for :head do %>
     <script type="text/javascript">
       jQuery(document).ready(function(){
         $("input[id='product_on_hand']").attr('disabled',true).parent().hide();
-        $("input#product_can_be_part").attr('disabled',true);
+        $("input#product_can_be_bundled").attr('disabled',true);
       });
     </script>
   <% end %>
