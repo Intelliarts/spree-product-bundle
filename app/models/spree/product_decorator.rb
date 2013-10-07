@@ -11,7 +11,7 @@ Spree::Product.class_eval do
     :foreign_key => "bundle_id"
 
   scope :search_can_be_bundled, ->(query){ not_deleted.available.joins(:master)
-    .where(arel_table["name"].matches("%#{query}%").or(Spree::Product.arel_table["sku"].matches("%#{query}%")))
+    .where(arel_table["name"].matches("%#{query}%"))
     .where(can_be_bundled: true)
     .limit(30)
   }
