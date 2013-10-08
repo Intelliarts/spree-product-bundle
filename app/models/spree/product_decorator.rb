@@ -10,6 +10,8 @@ Spree::Product.class_eval do
   has_many :bundles_parts, :class_name => "Spree::BundlesPart",
     :foreign_key => "bundle_id"
 
+  scope :bundles, :joins => :parts
+
   scope :search_can_be_bundled, ->(query){ not_deleted.available.joins(:master)
     .where(arel_table["name"].matches("%#{query}%"))
     .where(can_be_bundled: true)
