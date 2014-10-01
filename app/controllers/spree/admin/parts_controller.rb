@@ -6,13 +6,13 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
   end
 
   def remove
-    @part = Spree::Product.find_by_permalink!(params[:id])
+    @part = Spree::Product.find_by_slug!(params[:id])
     @product.remove_part(@part)
     render 'spree/admin/parts/update_parts_table'
   end
 
   def set_count
-    @part = Spree::Product.find_by_permalink!(params[:id])
+    @part = Spree::Product.find_by_slug!(params[:id])
     @product.set_part_count(@part, params[:count].to_i)
     render 'spree/admin/parts/update_parts_table'
   end
@@ -40,6 +40,6 @@ class Spree::Admin::PartsController < Spree::Admin::BaseController
 
   private
     def find_product
-      @product = Spree::Product.find_by_permalink(params[:product_id])
+      @product = Spree::Product.find_by_slug(params[:product_id])
     end
 end
