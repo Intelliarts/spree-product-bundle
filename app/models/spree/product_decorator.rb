@@ -18,8 +18,6 @@ Spree::Product.class_eval do
     .limit(30)
   }
 
-  attr_accessible :can_be_bundled, :only_in_bundle
-
   validate :bundle_cannot_be_part, :if => :bundle?
 
   def bundles_for(products)

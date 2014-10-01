@@ -2,17 +2,9 @@ source "https://rubygems.org"
 
 gemspec
 
-gem 'spree', github: 'spree/spree', branch: '2-0-stable'
-
-gem 'pry-rails'
-gem 'pg'
-
-group :assets do
-  gem 'coffee-rails', '~> 3.2.2'
-  gem 'sass-rails', '~> 3.2.6'
-end
+gem 'spree', github: 'spree/spree', branch: '2-3-stable'
 
 group :test do
-  gem 'capybara', '~> 2.1.0'
-  gem 'selenium-webdriver', '~> 2.34'
+  gem 'pry-rails'
+  gem 'spree_wombat', github: 'spree/spree_wombat', branch: "2-3-stable"
 end
