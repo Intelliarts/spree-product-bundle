@@ -8,11 +8,11 @@ module Spree
     end
 
     def save
-      self.class.update_all("count = #{count}", ["bundle_id = ? AND part_id = ?", bundle_id, part_id])
+      self.class.where(["bundle_id = ? AND part_id = ?", bundle_id, part_id]).update_all("count = #{count}")
     end
 
     def destroy
-      self.class.delete_all(["bundle_id = ? AND part_id = ?", bundle_id, part_id])
+      self.class.where(["bundle_id = ? AND part_id = ?", bundle_id, part_id]).delete_all()
     end
   end
 end
